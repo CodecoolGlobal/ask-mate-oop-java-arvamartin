@@ -6,6 +6,7 @@ import com.codecool.askmateoop.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,7 @@ public class QuestionController {
     }
 
     @GetMapping("/all")
-    public List<QuestionDTO> getAllQuestions() {
+    public List<QuestionDTO> getAllQuestions() throws SQLException {
         return questionService.getAllQuestions();
     }
 
