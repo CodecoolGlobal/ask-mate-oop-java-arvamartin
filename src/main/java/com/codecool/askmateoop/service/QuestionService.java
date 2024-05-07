@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,10 +20,10 @@ public class QuestionService {
         this.questionsDAO = questionsDAO;
     }
 
-    public List<QuestionDTO> getAllQuestions() throws SQLException {
+    public List<Question> getAllQuestions() throws SQLException {
         List<Question> allQuestions = questionsDAO.getAllQuestions();
         // TODO convert data to QuestionDTO
-        return List.of(new QuestionDTO(1, "Example Title", "Example Description", LocalDateTime.now()));
+        return allQuestions;
     }
 
     public QuestionDTO getQuestionById(int id) {
@@ -37,8 +36,8 @@ public class QuestionService {
         throw new UnsupportedOperationException();
     }
 
-    public int addNewQuestion(NewQuestionDTO question) {
-        // TODO
-        throw new UnsupportedOperationException();
+    public NewQuestionDTO addNewQuestion(NewQuestionDTO question) {
+        NewQuestionDTO newQuestion = questionsDAO.postQuestion(question);
+        return newQuestion;
     }
 }

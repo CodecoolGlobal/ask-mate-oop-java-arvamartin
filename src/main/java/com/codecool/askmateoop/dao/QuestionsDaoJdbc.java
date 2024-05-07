@@ -1,12 +1,11 @@
 package com.codecool.askmateoop.dao;
 
+import com.codecool.askmateoop.controller.dto.NewQuestionDTO;
 import com.codecool.askmateoop.dao.model.DatabaseConnection;
 import com.codecool.askmateoop.dao.model.Question;
+import org.jetbrains.annotations.NotNull;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
     }
 
     @Override
-    public List<Question> getAllQuestions() throws SQLException {
+    public List<Question> getAllQuestions() {
         List<Question> questions = new ArrayList<>();
         String sql = "SELECT id, title, description FROM \"question\"";
         try (Connection conn = databaseConnection.getConnection();
@@ -38,6 +37,22 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
             throw new RuntimeException(e);
         }
         return questions;
+    }
+
+    @Override
+    public NewQuestionDTO postQuestion(@NotNull NewQuestionDTO question) {
+        String sql = "INSERT INTO question (title, description) VALUES (?,?);";
+        try(Connection conn = databaseConnection.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql)
+        ){
+            statement.setString(1, question.getTitle());
+            statement.setString(2, question.getDescription());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return question;
     }
 }
 

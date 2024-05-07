@@ -2,6 +2,7 @@ package com.codecool.askmateoop.controller;
 
 import com.codecool.askmateoop.controller.dto.NewQuestionDTO;
 import com.codecool.askmateoop.controller.dto.QuestionDTO;
+import com.codecool.askmateoop.dao.model.Question;
 import com.codecool.askmateoop.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class QuestionController {
     }
 
     @GetMapping("/all")
-    public List<QuestionDTO> getAllQuestions() throws SQLException {
+    public List<Question> getAllQuestions() throws SQLException {
         return questionService.getAllQuestions();
     }
 
@@ -31,9 +32,8 @@ public class QuestionController {
     }
 
     @PostMapping("/")
-    public int addNewQuestion(@RequestBody NewQuestionDTO question) {
-//        TODO
-        throw new UnsupportedOperationException();
+    public NewQuestionDTO addNewQuestion(@RequestBody NewQuestionDTO question) {
+        return questionService.addNewQuestion(question);
     }
 
     @DeleteMapping("/{id}")
