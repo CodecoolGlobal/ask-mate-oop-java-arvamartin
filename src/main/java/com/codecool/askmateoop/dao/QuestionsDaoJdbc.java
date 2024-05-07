@@ -67,5 +67,25 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
             return false;
         }
     }
+
+    @Override
+    public Question getQuestion(int id) {
+        String sql = "SELECT title, description FROM question WHERE id = ?;";
+        try (Connection conn = databaseConnection.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                String title = rs.getString("title");
+                String description = rs.getString("description");
+                return new Question(id, title, description);
+            } else {
+                // No question found with the given ID
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
