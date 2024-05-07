@@ -9,4 +9,6 @@ import java.util.List;
 public interface QuestionsDAO {
     List<Question> getAllQuestions() throws SQLException;
     NewQuestionDTO postQuestion(NewQuestionDTO question);
+
+    boolean delete(int id);
 }

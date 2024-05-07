@@ -6,7 +6,6 @@ import com.codecool.askmateoop.dao.model.Question;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +52,20 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
             throw new RuntimeException(e);
         }
         return question;
+    }
+    @Override
+    public boolean delete(int id) {
+        String sql = "DELETE FROM question WHERE id = ?;";
+        try (Connection conn = databaseConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            int rowsAffected = statement.executeUpdate();
+            // Check if any rows were affected by the delete operation
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
 
