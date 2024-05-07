@@ -47,7 +47,6 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
         ){
             statement.setString(1, question.getTitle());
             statement.setString(2, question.getDescription());
-            statement.setDate(3, Date.valueOf(LocalDate.now()));
 
             statement.executeUpdate();
         } catch (SQLException e) {
