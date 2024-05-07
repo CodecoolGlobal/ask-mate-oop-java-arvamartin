@@ -11,4 +11,6 @@ public interface QuestionsDAO {
     NewQuestionDTO postQuestion(NewQuestionDTO question);
 
     boolean delete(int id);
+
+    Question getQuestion(int id);
 }
