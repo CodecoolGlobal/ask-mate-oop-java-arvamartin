@@ -5,6 +5,8 @@
   text-align: center;
 }
 
+
+
 /* App.css */
 
 /* Basic table styling */
@@ -26,6 +28,7 @@ th {
 td {
   border: 1px solid #ddd;
   padding: 12px;
+  font-weight: 700;
 }
 
 /* Button style */

@@ -27,6 +27,15 @@ function App() {
   }, [questions])
 
 
+  async function handleDelete(id){
+    await fetch(`/api/question/${id}`,{
+      method: 'DELETE',
+    })
+    const updatedQuestions = questions.filter((question) => question.id !== id);
+    setQuestions(updatedQuestions);
+  }
+
+
   const handlePostSuccess = () => {
     setPost(false);
 };
@@ -54,7 +63,7 @@ return (
                   <td>{question.description}</td>
                   <td>
                     <button>See answers</button>
-                    <button>Delete</button>
+                    <button onClick={()=> handleDelete(question.id)}>Delete</button>
                   </td>
                 </tr>
               ))}
