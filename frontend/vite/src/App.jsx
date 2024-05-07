@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-
 import './App.css'
+import Questionform from './QuestionForm';
 
 function App() {
 
   const [questions, setQuestions] = useState(null);
+  const [post, setPost] = useState(false);
 
 
   useEffect(() => {
@@ -26,29 +27,41 @@ function App() {
   }, [questions])
 
 
+  const handlePostSuccess = () => {
+    setPost(false);
+};
 
-
-  return (
+return (
     <div>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-        {questions?.map((question) => (
-          <tr key={question.id}>
-            <td>{question.title}</td>
-            <td>{question.description}</td>
-            <td>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+      <h1>QuestionHub</h1>
+        {post ? (
+            <Questionform onPostSuccess={handlePostSuccess} />
+      ) : (
+        <div>
+          <button onClick={() => setPost(true)}>Post new question</button>
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {questions?.map((question) => (
+                <tr key={question.id}>
+                  <td>{question.title}</td>
+                  <td>{question.description}</td>
+                  <td>
+                    <button>See answers</button>
+                    <button>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
