@@ -38,7 +38,7 @@ public class QuestionController {
 
     @DeleteMapping("/{id}")
     public boolean deleteQuestionById(@PathVariable int id) {
-//        TODO
-        throw new UnsupportedOperationException();
+        return  questionService.deleteQuestionById(id);
     }
+
 }
