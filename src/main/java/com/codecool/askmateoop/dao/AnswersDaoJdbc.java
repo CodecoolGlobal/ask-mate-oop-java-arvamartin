@@ -4,6 +4,7 @@ import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
 import com.codecool.askmateoop.dao.model.Answer;
 import com.codecool.askmateoop.dao.model.DatabaseConnection;
 import com.codecool.askmateoop.dao.model.Question;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class AnswersDaoJdbc {
+public class AnswersDaoJdbc implements AnswerDAO {
 
     private DatabaseConnection databaseConnection;
 
@@ -39,7 +40,7 @@ public class AnswersDaoJdbc {
         return answers;
     }
 
-    public NewAnswerDTO addNewAnswer(NewAnswerDTO answer) {
+    public NewAnswerDTO addNewAnswer(@NotNul NewAnswerDTO answer) {
         String sql = "INSERT INTO answers (question_id, description) VALUES (?, ?);";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
