@@ -25,4 +25,8 @@ public class AnswerService {
         NewAnswerDTO newAnswer = answersDaoJdbc.addNewAnswer(answer);
         return newAnswer;
     }
+
+    public boolean deleteAnswer(int answerId){
+        return answersDaoJdbc.deleteAnswer(answerId);
+    }
 }

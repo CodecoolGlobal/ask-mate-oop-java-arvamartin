@@ -55,4 +55,19 @@ public class AnswersDaoJdbc {
             throw new RuntimeException("Error posting answer for question ID: " + answer.getQuestionId(), e);
         }
     }
+
+    public boolean deleteAnswer(int answerId) {
+        String sql = "DELETE FROM answers WHERE id = ?;";
+        try (Connection conn = databaseConnection.getConnection();
+        PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, answerId);
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+
 }

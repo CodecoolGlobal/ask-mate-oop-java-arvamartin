@@ -20,7 +20,7 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @Autowired
-    public AnswerController(AnswerService answerService){
+    public AnswerController(AnswerService answerService) {
         this.answerService = answerService;
     }
 
@@ -32,5 +32,10 @@ public class AnswerController {
     @PostMapping("/{id}")
     public NewAnswerDTO addNewAnswer(@PathVariable("id") @RequestBody NewAnswerDTO answer) {
         return answerService.addNewAnswer(answer);
+    }
+
+    @DeleteMapping("/{id}")
+    public boolean deleteAnswer(@PathVariable int id) {
+        return answerService.deleteAnswer(id);
     }
 }
