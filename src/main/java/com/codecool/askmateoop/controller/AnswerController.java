@@ -29,8 +29,8 @@ public class AnswerController {
         return answerService.getAllAnswers(questionId);
     }
 
-    @PostMapping("/{id}")
-    public NewAnswerDTO addNewAnswer(@PathVariable("id") @RequestBody NewAnswerDTO answer) {
+    @PostMapping("/")
+    public NewAnswerDTO addNewAnswer( @RequestBody NewAnswerDTO answer) {
         return answerService.addNewAnswer(answer);
     }
 
