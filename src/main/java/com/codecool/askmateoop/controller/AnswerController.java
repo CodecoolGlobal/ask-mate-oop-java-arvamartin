@@ -35,7 +35,8 @@ public class AnswerController {
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteAnswer(@PathVariable int id) {
-        return answerService.deleteAnswer(id);
+    public boolean deleteAnswer(@PathVariable("id") int answerId) throws SQLException {
+        return answerService.deleteAnswer(answerId);
     }
+
 }
