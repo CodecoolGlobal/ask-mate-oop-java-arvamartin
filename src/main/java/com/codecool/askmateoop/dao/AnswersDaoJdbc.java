@@ -39,6 +39,19 @@ public class AnswersDaoJdbc implements  AnswersDAO{
         return answers;
     }
 
+    @Override
+    public boolean deleteAnswer(int answerId) {
+        String sql = "DELETE FROM answer WHERE id = ?;";
+        try(Connection conn = databaseConnection.getConnection();
+        PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setInt(1, answerId);
+           int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public NewAnswerDTO addNewAnswer(NewAnswerDTO answer) {
         String sql = "INSERT INTO answer (question_id, description) VALUES (?, ?)";
         try (Connection conn = databaseConnection.getConnection();

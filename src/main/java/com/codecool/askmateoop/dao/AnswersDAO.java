@@ -9,4 +9,6 @@ public interface AnswersDAO {
     NewAnswerDTO addNewAnswer(NewAnswerDTO answer);
 
     List<Answer> getAllAnswers(int questionId);
+
+    boolean deleteAnswer(int answerId);
 }

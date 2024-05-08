@@ -20,7 +20,7 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @Autowired
-    public AnswerController(AnswerService answerService){
+    public AnswerController(AnswerService answerService) {
         this.answerService = answerService;
     }
 
@@ -33,4 +33,10 @@ public class AnswerController {
     public NewAnswerDTO addNewAnswer( @RequestBody NewAnswerDTO answer) {
         return answerService.addNewAnswer(answer);
     }
+
+    @DeleteMapping("/{id}")
+    public boolean deleteAnswer(@PathVariable("id") int answerId) throws SQLException {
+        return answerService.deleteAnswer(answerId);
+    }
+
 }
