@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class AnswersDaoJdbc {
+public class AnswersDaoJdbc implements  AnswersDAO{
 
     private DatabaseConnection databaseConnection;
 
@@ -22,7 +22,7 @@ public class AnswersDaoJdbc {
 
     public List<Answer> getAllAnswers(int questionId) {
         List<Answer> answers = new ArrayList<>();
-        String sql = "SELECT id, description FROM \"answer\" WHERE question_id = ?;";
+        String sql = "SELECT id, description FROM answer WHERE question_id = ?;";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
             statement.setInt(1, questionId);
@@ -40,19 +40,15 @@ public class AnswersDaoJdbc {
     }
 
     public NewAnswerDTO addNewAnswer(NewAnswerDTO answer) {
-        String sql = "INSERT INTO answers (question_id, description) VALUES (?, ?);";
+        String sql = "INSERT INTO answer (question_id, description) VALUES (?, ?)";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
-            statement.setInt(1, answer.getQuestionId());
-            statement.setString(2, answer.getDescription());
-
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Creating answer failed, no rows affected.");
-            }
-            return new NewAnswerDTO(answer.getQuestionId(), answer.getDescription());
+            statement.setInt(1,answer.questionId());
+            statement.setString(2, answer.description());
+            statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error posting answer for question ID: " + answer.getQuestionId(), e);
+            throw new RuntimeException("Error posting answer for question ID: " + answer.questionId() ,e );
         }
+        return answer;
     }
 }
