@@ -1,7 +1,6 @@
 package com.codecool.askmateoop.controller;
 
 import com.codecool.askmateoop.controller.dto.NewQuestionDTO;
-import com.codecool.askmateoop.controller.dto.QuestionDTO;
 import com.codecool.askmateoop.dao.model.Question;
 import com.codecool.askmateoop.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,8 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public QuestionDTO getQuestionById(@PathVariable int id) {
-//        TODO
-        throw new UnsupportedOperationException();
+    public Question getQuestionById(@PathVariable int id) {
+    return questionService.getQuestionById(id);
     }
 
     @PostMapping("/")
