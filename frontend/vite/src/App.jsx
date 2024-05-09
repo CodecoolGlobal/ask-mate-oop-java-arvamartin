@@ -9,103 +9,100 @@ function App() {
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
   const [showNewUserForm, setShowNewUserForm] = useState(false);
   const [newUserName, setNewUserName] = useState('');
-const [selectedQuestionTitle, setSelectedQuestionTitle] = useState(null)
-  useEffect(() => {
-    async function fetchQuestions() {
-      try {
-        const response = await fetch('/api/question/all');
-        if (!response.ok) {
-          throw new Error('Network response was not ok.');
-        }
-        const data = await response.json();
-        setQuestions(data);
-        console.log('Fetched questions:', data);
-      } catch (error) {
-        console.error(error.message);
+  const [selectedQuestionTitle, setSelectedQuestionTitle] = useState(null);
+  const [newUserCreated, setNewUserCreated] = useState(false);
+
+  async function fetchQuestions() {
+    try {
+      const response = await fetch('/api/question/all');
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
       }
+      const data = await response.json();
+      setQuestions(data);
+      console.log('Fetched questions:', data);
+    } catch (error) {
+      console.error(error.message);
     }
+  }
+
+  useEffect(() => {
+    
 
     if (!questions) {
       fetchQuestions();
     }
   }, [questions]);
 
-
   async function handleDeleteQuestion(id) {
     try {
-
-  
-      // Kérdés törlése csak a válaszok sikeres törlése után
       const deleteResponse = await fetch(`/api/question/${id}`, {
         method: 'DELETE',
       });
       if (!deleteResponse.ok) {
         throw new Error('Failed to delete question.');
       }
-  
-      // Kérdések frissítése az állapotban
       const updatedQuestions = questions.filter((question) => question.id !== id);
       setQuestions(updatedQuestions);
       setSelectedQuestionId(null);
-      setSelectedQuestionTitle(null)
+      setSelectedQuestionTitle(null);
     } catch (error) {
       console.error('Error deleting question:', error.message);
     }
   }
-  
+
   const handleCreateUser = async () => {
     try {
-      // Make sure the new user name is not empty
       if (!newUserName.trim()) {
         console.error('New user name cannot be empty.');
         return;
       }
 
-      // Send a POST request to create a new user
       const response = await fetch('/api/user/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: newUserName.trim(), // Trim the user name to remove leading and trailing whitespaces
+          name: newUserName.trim(),
         }),
       });
 
       if (!response.ok) {
         throw new Error('Failed to create user.');
       }
+
       setNewUserName('');
       setShowNewUserForm(false);
+      setNewUserCreated(true); // Felhasználó létrehozva
       console.log('User created successfully.');
     } catch (error) {
       console.error('Error creating user:', error.message);
     }
   };
 
-
   const handlePostQuestionSuccess = () => {
     setPostQuestion(false);
+    // Frissítjük a kérdések állapotát az új kérdés hozzáadása után
+    fetchQuestions()
   };
 
   const handleCloseAnswerTable = () => {
-    setSelectedQuestionId(null); // Bezárjuk az AnswerTable-t
+    setSelectedQuestionId(null);
   };
 
-  const handeleSeeQuestions = (id, title)=>{
+  const handleSeeQuestions = (id, title) => {
     setSelectedQuestionId(id);
-    setSelectedQuestionTitle(title)
+    setSelectedQuestionTitle(title);
+  };
 
-  }
   const handleNewUserButtonClick = () => {
-    setShowNewUserForm(true); // Show the new user form
+    setShowNewUserForm(true);
   };
 
   const handleNewUserNameChange = (event) => {
-    setNewUserName(event.target.value); // Update the new user name
+    setNewUserName(event.target.value);
   };
-
-
 
   return (
     <div className="app">
@@ -115,16 +112,18 @@ const [selectedQuestionTitle, setSelectedQuestionTitle] = useState(null)
         <QuestionForm onPostSuccess={handlePostQuestionSuccess} />
       ) : (
         <div>
+          {newUserCreated ? (
+            <button onClick={() => setPostQuestion(true)}>Post new question</button>
+          ) : (
+            <button onClick={handleNewUserButtonClick}>{newUserName ? newUserName : 'New User'}</button>
+          )}
 
-<button onClick={handleNewUserButtonClick}>New User</button>
-
-{showNewUserForm && (
-  <div>
-    <input type="text" value={newUserName} onChange={handleNewUserNameChange} />
-    <button onClick={handleCreateUser}>Create</button>
-  </div>
-)}
-          <button onClick={() => setPostQuestion(true)}>Post new question</button>
+          {showNewUserForm && (
+            <div>
+              <input type="text" value={newUserName} onChange={handleNewUserNameChange} />
+              <button onClick={handleCreateUser}>Create</button>
+            </div>
+          )}
 
           {questions ? (
             <table>
@@ -141,7 +140,7 @@ const [selectedQuestionTitle, setSelectedQuestionTitle] = useState(null)
                     <td>{question.title}</td>
                     <td>{question.description}</td>
                     <td>
-                      <button onClick={() => handeleSeeQuestions(question.id, question.title)}>See answers</button>
+                      <button onClick={() => handleSeeQuestions(question.id, question.title)}>See answers</button>
                       <button onClick={() => handleDeleteQuestion(question.id)}>Delete</button>
                     </td>
                   </tr>
@@ -154,8 +153,9 @@ const [selectedQuestionTitle, setSelectedQuestionTitle] = useState(null)
         </div>
       )}
 
-{selectedQuestionId && (
-  <AnswerTable questionId={selectedQuestionId} questionTitle={selectedQuestionTitle} onPostSuccess={handlePostQuestionSuccess} onClose={handleCloseAnswerTable} />)}
+      {selectedQuestionId && (
+        <AnswerTable questionId={selectedQuestionId} questionTitle={selectedQuestionTitle} onClose={handleCloseAnswerTable} />
+      )}
     </div>
   );
 }

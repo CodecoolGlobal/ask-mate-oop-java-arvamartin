@@ -1,40 +1,37 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
+function QuestionForm({ onPostSuccess }) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-function Questionform({onPostSuccess}) {
+  async function handlePost(event) {
+    event.preventDefault();
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
+    const formData = { title, description };
+    const response = await fetch('/api/question/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
 
+    const responseData = await response.json();
+    console.log(responseData);
 
-    async function handlePost(event) {
-        event.preventDefault();
-
-        const formData = { title, description };
-        const response = await fetch('/api/question/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-        })
-        const responseData = await response.json();
-        console.log(responseData);
-        if (response.ok) {
-            onPostSuccess();
-        }
+    if (response.ok) {
+      onPostSuccess(); // Hívjuk az onPostSuccess callbacket az új kérdés postolása után
     }
+  }
 
-
-    return (
-        <div>
-            <form onSubmit={handlePost}>
-                <label> Your question:  </label>
-                <input placeholder="question" onChange={(event) => setTitle(event.target.value)} />
-                <input placeholder="description" onChange={(event)=> setDescription(event.target.value)} />
-                <button>Post</button>
-                <button onClick={onPostSuccess}>Back</button>
-            </form>
-        </div>
-    )
+  return (
+    <div>
+      <form onSubmit={handlePost}>
+        <label>Your question:</label>
+        <input placeholder="Question" onChange={(event) => setTitle(event.target.value)} />
+        <input placeholder="Description" onChange={(event) => setDescription(event.target.value)} />
+        <button type="submit">Post</button>
+      </form>
+    </div>
+  );
 }
 
-export default Questionform;
+export default QuestionForm;
