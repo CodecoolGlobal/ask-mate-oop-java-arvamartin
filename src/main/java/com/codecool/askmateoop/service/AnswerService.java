@@ -1,8 +1,7 @@
 package com.codecool.askmateoop.service;
 
 import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
-import com.codecool.askmateoop.dao.AnswersDAO;
-import com.codecool.askmateoop.dao.AnswersDaoJdbc;
+import com.codecool.askmateoop.dao.AnswerDao.AnswersDAO;
 import com.codecool.askmateoop.dao.model.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

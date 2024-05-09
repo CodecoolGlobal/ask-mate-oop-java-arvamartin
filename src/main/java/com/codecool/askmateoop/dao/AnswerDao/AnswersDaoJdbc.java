@@ -1,9 +1,8 @@
-package com.codecool.askmateoop.dao;
+package com.codecool.askmateoop.dao.AnswerDao;
 
 import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
 import com.codecool.askmateoop.dao.model.Answer;
 import com.codecool.askmateoop.dao.model.DatabaseConnection;
-import com.codecool.askmateoop.dao.model.Question;
 import org.springframework.stereotype.Repository;
 
 
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class AnswersDaoJdbc implements  AnswersDAO{
+public class AnswersDaoJdbc implements AnswersDAO {
 
     private DatabaseConnection databaseConnection;
 

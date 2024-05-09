@@ -22,5 +22,8 @@ public class UserController {
     @PostMapping("/")
     public NewUserDTO addNewUser(@RequestBody NewUserDTO user) {
         return userService.addNewUser(user);
-    }
+    };
+
+    @PostMapping("/login")
+    public boolean login(@RequestBody NewUserDTO user) {return userService.loginUser(user);};
 }

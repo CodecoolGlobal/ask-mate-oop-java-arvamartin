@@ -1,4 +1,4 @@
-package com.codecool.askmateoop.dao;
+package com.codecool.askmateoop.dao.AnswerDao;
 
 import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
 import com.codecool.askmateoop.dao.model.Answer;
