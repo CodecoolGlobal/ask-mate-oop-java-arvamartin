@@ -1,9 +1,6 @@
 package com.codecool.askmateoop.configuration;
 
-import com.codecool.askmateoop.dao.AnswersDAO;
-import com.codecool.askmateoop.dao.AnswersDaoJdbc;
-import com.codecool.askmateoop.dao.QuestionsDAO;
-import com.codecool.askmateoop.dao.QuestionsDaoJdbc;
+import com.codecool.askmateoop.dao.*;
 import com.codecool.askmateoop.dao.model.DatabaseConnection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
@@ -34,6 +31,10 @@ public class Configuration {
     @Bean
     public AnswersDAO answersDAO(DatabaseConnection databaseConnection) {
         return new AnswersDaoJdbc(databaseConnection);
+    }
+    @Bean
+    public UserDAO userDAO(DatabaseConnection databaseConnection) {
+        return new UserDaoJdbc(databaseConnection);
     }
 }
 
