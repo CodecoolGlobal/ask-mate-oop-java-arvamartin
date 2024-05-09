@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function AnswerTable({ questionId }) {
+function AnswerTable({ questionId, onPostSuccess, onClose }) {
   const [answers, setAnswers] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [description, setDescription] = useState('');
@@ -28,7 +28,7 @@ function AnswerTable({ questionId }) {
   async function handlePost(event) {
     event.preventDefault();
 
-    const formData = { description, questionId };
+    const formData = { questionId, description };
     const response = await fetch(`/api/answer/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -44,7 +44,27 @@ function AnswerTable({ questionId }) {
     } else {
       console.error('Failed to add new answer.');
     }
+    if (response.ok) {
+      onPostSuccess();
+    }
   }
+
+
+  async function handleDeleteAnswer(answerId) {
+    try {
+      const deleteResponse = await fetch(`/api/answer/${answerId}`, {
+        method: 'DELETE',
+      });
+      if (!deleteResponse.ok) {
+        throw new Error(`Failed to delete answer with id ${answerId}.`);
+      }
+      const updatedAnswers = answers.filter((answer) => answer.id !== answerId);
+      setAnswers(updatedAnswers);
+    } catch (error) {
+      console.error('Error deleting answer:', error.message);
+    }
+  }
+
 
   return (
     <div>
@@ -56,17 +76,20 @@ function AnswerTable({ questionId }) {
             <thead>
               <tr>
                 <th>Description</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {answers.map((answer) => (
                 <tr key={answer.id}>
                   <td>{answer.description}</td>
+                  <button onClick={() => handleDeleteAnswer(answer.id)}>Delete</button>
                 </tr>
               ))}
             </tbody>
           </table>
           <button onClick={() => setShowForm(true)}>Add new Answer</button>
+          <button onClick={onClose}>Close</button>
         </div>
       ) : (
         <p>Loading answers...</p>
