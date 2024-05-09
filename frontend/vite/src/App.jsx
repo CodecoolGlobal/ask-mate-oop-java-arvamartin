@@ -7,6 +7,8 @@ function App() {
   const [questions, setQuestions] = useState(null);
   const [postQuestion, setPostQuestion] = useState(false);
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
+  const [showNewUserForm, setShowNewUserForm] = useState(false);
+  const [newUserName, setNewUserName] = useState('');
 
   useEffect(() => {
     async function fetchQuestions() {
@@ -64,6 +66,35 @@ function App() {
     }
   }
   
+  const handleCreateUser = async () => {
+    try {
+      // Make sure the new user name is not empty
+      if (!newUserName.trim()) {
+        console.error('New user name cannot be empty.');
+        return;
+      }
+  
+      // Send a POST request to create a new user
+      const response = await fetch('/api/user/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: newUserName.trim(), // Trim the user name to remove leading and trailing whitespaces
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to create user.');
+      }
+      setNewUserName('');
+      setShowNewUserForm(false);
+      console.log('User created successfully.');
+    } catch (error) {
+      console.error('Error creating user:', error.message);
+    }
+  };
   
 
   const handlePostQuestionSuccess = () => {
@@ -72,6 +103,14 @@ function App() {
 
   const handleCloseAnswerTable = () => {
     setSelectedQuestionId(null); // Bezárjuk az AnswerTable-t
+  };
+
+  const handleNewUserButtonClick = () => {
+    setShowNewUserForm(true); // Show the new user form
+  };
+
+  const handleNewUserNameChange = (event) => {
+    setNewUserName(event.target.value); // Update the new user name
   };
 
 
@@ -84,6 +123,15 @@ function App() {
         <QuestionForm onPostSuccess={handlePostQuestionSuccess} />
       ) : (
         <div>
+
+<button onClick={handleNewUserButtonClick}>New User</button>
+
+{showNewUserForm && (
+  <div>
+    <input type="text" value={newUserName} onChange={handleNewUserNameChange} />
+    <button onClick={handleCreateUser}>Create</button>
+  </div>
+)}
           <button onClick={() => setPostQuestion(true)}>Post new question</button>
 
           {questions ? (
