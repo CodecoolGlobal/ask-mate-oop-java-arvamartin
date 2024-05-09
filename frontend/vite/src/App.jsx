@@ -33,22 +33,7 @@ function App() {
 
   async function handleDeleteQuestion(id) {
     try {
-      // Válaszok lekérése a kérdéshez
-      const response = await fetch(`/api/answer/all/${id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch answers.');
-      }
-      const answersData = await response.json();
-  
-      // Válaszok törlése
-      for (const answer of answersData) {
-        const deleteAnswerResponse = await fetch(`/api/answer/${answer.id}`, {
-          method: 'DELETE',
-        });
-        if (!deleteAnswerResponse.ok) {
-          console.error(`Failed to delete answer with id ${answer.id}.`);
-        }
-      }
+
   
       // Kérdés törlése csak a válaszok sikeres törlése után
       const deleteResponse = await fetch(`/api/question/${id}`, {
@@ -61,6 +46,8 @@ function App() {
       // Kérdések frissítése az állapotban
       const updatedQuestions = questions.filter((question) => question.id !== id);
       setQuestions(updatedQuestions);
+      setSelectedQuestionId(null);
+      selectedQuestionTitle(null)
     } catch (error) {
       console.error('Error deleting question:', error.message);
     }
@@ -73,7 +60,7 @@ function App() {
         console.error('New user name cannot be empty.');
         return;
       }
-  
+
       // Send a POST request to create a new user
       const response = await fetch('/api/user/', {
         method: 'POST',
@@ -84,7 +71,7 @@ function App() {
           name: newUserName.trim(), // Trim the user name to remove leading and trailing whitespaces
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to create user.');
       }
@@ -95,7 +82,7 @@ function App() {
       console.error('Error creating user:', error.message);
     }
   };
-  
+
 
   const handlePostQuestionSuccess = () => {
     setPostQuestion(false);
@@ -105,6 +92,11 @@ function App() {
     setSelectedQuestionId(null); // Bezárjuk az AnswerTable-t
   };
 
+  const handeleSeeQuestions = (id, title)=>{
+    setSelectedQuestionId(id);
+    setselectedQuestionTitle(title)
+
+  }
   const handleNewUserButtonClick = () => {
     setShowNewUserForm(true); // Show the new user form
   };
@@ -149,7 +141,7 @@ function App() {
                     <td>{question.title}</td>
                     <td>{question.description}</td>
                     <td>
-                      <button onClick={() => setSelectedQuestionId(question.id)}>See answers</button>
+                      <button onClick={() => handeleSeeQuestions(question.id, question.title)}>See answers</button>
                       <button onClick={() => handleDeleteQuestion(question.id)}>Delete</button>
                     </td>
                   </tr>
@@ -163,7 +155,7 @@ function App() {
       )}
 
 {selectedQuestionId && (
-  <AnswerTable questionId={selectedQuestionId} onPostSuccess={handlePostQuestionSuccess} onClose={handleCloseAnswerTable} />)}
+  <AnswerTable questionId={selectedQuestionId} questionTitle={selectedQuestionTitle} onPostSuccess={handlePostQuestionSuccess} onClose={handleCloseAnswerTable} />)}
     </div>
   );
 }
