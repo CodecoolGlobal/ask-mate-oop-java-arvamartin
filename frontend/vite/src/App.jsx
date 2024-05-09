@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import Questionform from './QuestionForm';
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import QuestionForm from './QuestionForm';
+import AnswerTable from './AnswerTable';
 
 function App() {
-
   const [questions, setQuestions] = useState(null);
-  const [post, setPost] = useState(false);
-
+  const [postQuestion, setPostQuestion] = useState(false);
+  const [selectedQuestionId, setSelectedQuestionId] = useState(null);
 
   useEffect(() => {
     async function fetchQuestions() {
@@ -16,63 +16,71 @@ function App() {
           throw new Error('Network response was not ok.');
         }
         const data = await response.json();
-        setQuestions(data)
+        setQuestions(data);
         console.log('Fetched questions:', data);
       } catch (error) {
-        console.error(error.message)
-
+        console.error(error.message);
       }
     }
-    fetchQuestions()
-  }, [questions])
 
+    if (!questions) {
+      fetchQuestions();
+    }
+  }, [questions]);
 
-  async function handleDelete(id){
-    await fetch(`/api/question/${id}`,{
+  async function handleDeleteQuestion(id) {
+    await fetch(`/api/question/${id}`, {
       method: 'DELETE',
-    })
+    });
     const updatedQuestions = questions.filter((question) => question.id !== id);
     setQuestions(updatedQuestions);
   }
 
+  const handlePostQuestionSuccess = () => {
+    setPostQuestion(false);
+  };
 
-  const handlePostSuccess = () => {
-    setPost(false);
-};
-
-return (
-    <div>
+  return (
+    <div className="app">
       <h1>QuestionHub</h1>
-        {post ? (
-            <Questionform onPostSuccess={handlePostSuccess} />
+
+      {postQuestion ? (
+        <QuestionForm onPostSuccess={handlePostQuestionSuccess} />
       ) : (
         <div>
-          <button onClick={() => setPost(true)}>Post new question</button>
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {questions?.map((question) => (
-                <tr key={question.id}>
-                  <td>{question.title}</td>
-                  <td>{question.description}</td>
-                  <td>
-                    <button>See answers</button>
-                    <button onClick={()=> handleDelete(question.id)}>Delete</button>
-                  </td>
+          <button onClick={() => setPostQuestion(true)}>Post new question</button>
+
+          {questions ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {questions.map((question) => (
+                  <tr key={question.id}>
+                    <td>{question.title}</td>
+                    <td>{question.description}</td>
+                    <td>
+                      <button onClick={() => setSelectedQuestionId(question.id)}>See answers</button>
+                      <button onClick={() => handleDeleteQuestion(question.id)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>Loading questions...</p>
+          )}
         </div>
       )}
+
+      {selectedQuestionId && <AnswerTable questionId={selectedQuestionId} />}
     </div>
   );
 }
 
-export default App
+export default App;
