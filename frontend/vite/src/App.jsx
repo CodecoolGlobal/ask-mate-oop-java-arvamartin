@@ -7,7 +7,7 @@ function App() {
   const [questions, setQuestions] = useState(null);
   const [postQuestion, setPostQuestion] = useState(false);
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
-
+  const[selectedQuestionTitle, setselectedQuestionTitle] = useState(null)
   useEffect(() => {
     async function fetchQuestions() {
       try {
@@ -42,6 +42,8 @@ function App() {
   
       const updatedQuestions = questions.filter((question) => question.id !== id);
       setQuestions(updatedQuestions);
+      setSelectedQuestionId(null);
+      selectedQuestionTitle(null) 
     } catch (error) {
       console.error('Error deleting question:', error.message);
     }
@@ -57,6 +59,11 @@ function App() {
     setSelectedQuestionId(null); // Bezárjuk az AnswerTable-t
   };
 
+  const handeleSeeQuestions = (id, title)=>{
+    setSelectedQuestionId(id);
+    setselectedQuestionTitle(title)
+
+  }
 
 
   return (
@@ -84,7 +91,7 @@ function App() {
                     <td>{question.title}</td>
                     <td>{question.description}</td>
                     <td>
-                      <button onClick={() => setSelectedQuestionId(question.id)}>See answers</button>
+                      <button onClick={() => handeleSeeQuestions(question.id, question.title)}>See answers</button>
                       <button onClick={() => handleDeleteQuestion(question.id)}>Delete</button>
                     </td>
                   </tr>
@@ -98,7 +105,7 @@ function App() {
       )}
 
 {selectedQuestionId && (
-  <AnswerTable questionId={selectedQuestionId} onPostSuccess={handlePostQuestionSuccess} onClose={handleCloseAnswerTable} />)}
+  <AnswerTable questionId={selectedQuestionId} questionTitle={selectedQuestionTitle} onPostSuccess={handlePostQuestionSuccess} onClose={handleCloseAnswerTable} />)}
     </div>
   );
 }

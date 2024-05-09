@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function AnswerTable({ questionId, onPostSuccess, onClose }) {
+function AnswerTable({ questionId, onPostSuccess, onClose, questionTitle }) {
   const [answers, setAnswers] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [description, setDescription] = useState('');
@@ -68,7 +68,7 @@ function AnswerTable({ questionId, onPostSuccess, onClose }) {
 
   return (
     <div>
-      <h2>Answers for Question {questionId}</h2>
+      <h2>Answers for Question {questionTitle}</h2>
 
       {answers ? (
         <div>
