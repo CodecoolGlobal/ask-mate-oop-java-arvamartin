@@ -9,7 +9,7 @@ function App() {
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
   const [showNewUserForm, setShowNewUserForm] = useState(false);
   const [newUserName, setNewUserName] = useState('');
-
+const [selectedQuestionTitle, setSelectedQuestionTitle] = useState(null)
   useEffect(() => {
     async function fetchQuestions() {
       try {
@@ -47,7 +47,7 @@ function App() {
       const updatedQuestions = questions.filter((question) => question.id !== id);
       setQuestions(updatedQuestions);
       setSelectedQuestionId(null);
-      selectedQuestionTitle(null)
+      setSelectedQuestionTitle(null)
     } catch (error) {
       console.error('Error deleting question:', error.message);
     }
@@ -94,7 +94,7 @@ function App() {
 
   const handeleSeeQuestions = (id, title)=>{
     setSelectedQuestionId(id);
-    setselectedQuestionTitle(title)
+    setSelectedQuestionTitle(title)
 
   }
   const handleNewUserButtonClick = () => {
