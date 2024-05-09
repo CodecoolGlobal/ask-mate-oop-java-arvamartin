@@ -55,12 +55,12 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
     }
     @Override
     public boolean delete(int id) {
-        String sql = "DELETE FROM question WHERE id = ?;";
+        String sql = "DELETE FROM answer WHERE question_id = ?;\n" +
+                "DELETE FROM question WHERE id = ?;";
         try (Connection conn = databaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
             statement.setInt(1, id);
             int rowsAffected = statement.executeUpdate();
-            // Check if any rows were affected by the delete operation
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();

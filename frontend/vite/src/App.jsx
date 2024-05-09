@@ -31,24 +31,8 @@ function App() {
 
   async function handleDeleteQuestion(id) {
     try {
-      // Válaszok lekérése a kérdéshez
-      const response = await fetch(`/api/answer/all/${id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch answers.');
-      }
-      const answersData = await response.json();
+    
   
-      // Válaszok törlése
-      for (const answer of answersData) {
-        const deleteAnswerResponse = await fetch(`/api/answer/${answer.id}`, {
-          method: 'DELETE',
-        });
-        if (!deleteAnswerResponse.ok) {
-          console.error(`Failed to delete answer with id ${answer.id}.`);
-        }
-      }
-  
-      // Kérdés törlése csak a válaszok sikeres törlése után
       const deleteResponse = await fetch(`/api/question/${id}`, {
         method: 'DELETE',
       });
@@ -56,7 +40,6 @@ function App() {
         throw new Error('Failed to delete question.');
       }
   
-      // Kérdések frissítése az állapotban
       const updatedQuestions = questions.filter((question) => question.id !== id);
       setQuestions(updatedQuestions);
     } catch (error) {
