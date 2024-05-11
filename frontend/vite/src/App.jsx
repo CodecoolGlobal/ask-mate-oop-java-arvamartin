@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import QuestionForm from './QuestionForm';
 import AnswerTable from './AnswerTable';
+import Login from './LogIn';
 
 function App() {
   const [questions, setQuestions] = useState(null);
@@ -9,8 +10,11 @@ function App() {
   const [selectedQuestionId, setSelectedQuestionId] = useState(null);
   const [showNewUserForm, setShowNewUserForm] = useState(false);
   const [newUserName, setNewUserName] = useState('');
+  const [newUserPassword, setNewUserPassword] = useState('');
   const [selectedQuestionTitle, setSelectedQuestionTitle] = useState(null);
   const [newUserCreated, setNewUserCreated] = useState(false);
+  const [logInClicked, setLoginClicked] = useState(false);
+  const [notLoggedIn, setNotLoggedIn] = useState(true);
 
   async function fetchQuestions() {
     try {
@@ -27,8 +31,6 @@ function App() {
   }
 
   useEffect(() => {
-    
-
     if (!questions) {
       fetchQuestions();
     }
@@ -65,6 +67,7 @@ function App() {
         },
         body: JSON.stringify({
           name: newUserName.trim(),
+          password: newUserPassword.trim(),
         }),
       });
 
@@ -84,7 +87,7 @@ function App() {
   const handlePostQuestionSuccess = () => {
     setPostQuestion(false);
     // Frissítjük a kérdések állapotát az új kérdés hozzáadása után
-    fetchQuestions()
+    fetchQuestions();
   };
 
   const handleCloseAnswerTable = () => {
@@ -100,59 +103,70 @@ function App() {
     setShowNewUserForm(true);
   };
 
-  const handleNewUserNameChange = (event) => {
-    setNewUserName(event.target.value);
+  const handleLoggedIn = () => {
+    setNotLoggedIn(false);
   };
 
   return (
     <div className="app">
       <h1>QuestionHub</h1>
-
-      {postQuestion ? (
-        <QuestionForm onPostSuccess={handlePostQuestionSuccess} />
-      ) : (
+      {notLoggedIn ? (
         <div>
-          {newUserCreated ? (
-            <button onClick={() => setPostQuestion(true)}>Post new question</button>
+          {logInClicked ? (
+            <Login onLogedIn={handleLoggedIn} />
           ) : (
-            <button onClick={handleNewUserButtonClick}>{newUserName ? newUserName : 'New User'}</button>
+            <>
+              <button onClick={handleNewUserButtonClick}>{newUserName ? newUserName : 'New User'}</button>
+              <button onClick={() => setLoginClicked(true)}>Log in</button>
+            </>
           )}
-
           {showNewUserForm && (
             <div>
-              <input type="text" value={newUserName} onChange={handleNewUserNameChange} />
+              <input type="text" value={newUserName} onChange={(e) => setNewUserName(e.target.value)} placeholder="Username" />
+              <input type="text" value={newUserPassword} onChange={(e) => setNewUserPassword(e.target.value)} placeholder="Password" />
               <button onClick={handleCreateUser}>Create</button>
             </div>
           )}
-
-          {questions ? (
-            <table>
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Description</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {questions.map((question) => (
-                  <tr key={question.id}>
-                    <td>{question.title}</td>
-                    <td>{question.description}</td>
-                    <td>
-                      <button onClick={() => handleSeeQuestions(question.id, question.title)}>See answers</button>
-                      <button onClick={() => handleDeleteQuestion(question.id)}>Delete</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <p>Loading questions...</p>
-          )}
         </div>
-      )}
+      ) : (
+        <>
+          {postQuestion ? (
+            <QuestionForm onPostSuccess={handlePostQuestionSuccess} />
+          ) : (
+            <div>
+              {newUserCreated ? (
+                <button onClick={() => setPostQuestion(true)}>Post new question</button>
+              ) : null}
 
+              {questions ? (
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {questions.map((question) => (
+                      <tr key={question.id}>
+                        <td>{question.title}</td>
+                        <td>{question.description}</td>
+                        <td>
+                          <button onClick={() => handleSeeQuestions(question.id, question.title)}>See answers</button>
+                          <button onClick={() => handleDeleteQuestion(question.id)}>Delete</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p>Loading questions...</p>
+              )}
+            </div>
+          )}
+        </>
+      )}
       {selectedQuestionId && (
         <AnswerTable questionId={selectedQuestionId} questionTitle={selectedQuestionTitle} onClose={handleCloseAnswerTable} />
       )}
