@@ -1,7 +1,7 @@
 # AskMateOOP Project
 
 ## Overview
-AskMateOOP is a web application that allows users to post questions and answers, as well as create user accounts, wich is currently still at a rudimentary level. The project is built with a Spring Boot backend and a React.js frontend. 
+AskMateOOP is a web application for posting questions and answers, featuring user account creation. Currently, it is at a rudimentary level of development. The project utilizes a Spring Boot backend and a React.js frontend.
 
 ## Table of Contents
 - [Technologies Used](#technologies-used).
@@ -27,17 +27,14 @@ AskMateOOP is a web application that allows users to post questions and answers,
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/CodecoolGlobal/gotta-fetch-em-all-react-arvamartin
+    git clone https://github.com/CodecoolGlobal/ask-mate-oop-java-arvamartin
     ```
 2. **Navigate to the project directory**
 
 3. **Install dependencies for frontend**:
    
    ```bash
-   cd frontend
-   ```
-   ```bash
-   cd vite
+   cd frontend/vite
    ```
    ```bash
    npm install
@@ -75,10 +72,7 @@ AskMateOOP is a web application that allows users to post questions and answers,
 
      - **Start the client:**
       ```bash
-      cd frontend
-      ```
-      ```bash
-      cd vite
+      cd frontend/vite
       ```
       ```bash
       npm run dev
