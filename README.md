@@ -1,7 +1,7 @@
 # AskMateOOP Project
 
 ## Overview
-AskMateOOP is a web application that allows users to post questions and answers, as well as manage user accounts, wich is currently still at a rudimentary level. The project is built with a Spring Boot backend and a React.js frontend. 
+AskMateOOP is a web application that allows users to post questions and answers, as well as create user accounts, wich is currently still at a rudimentary level. The project is built with a Spring Boot backend and a React.js frontend. 
 
 ## Table of Contents
 - [Technologies Used](#technologies-used).
