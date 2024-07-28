@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import QuestionForm from './QuestionForm';
-import AnswerTable from './AnswerTable';
+import QuestionForm from './form/QuestionForm';
+import AnswerTable from './tables/AnswerTable';
+import QuestionTable from './tables/QuestionTable';
 
 function App() {
   const [questions, setQuestions] = useState(null);
@@ -11,6 +12,10 @@ function App() {
   const [newUserName, setNewUserName] = useState('');
   const [selectedQuestionTitle, setSelectedQuestionTitle] = useState(null);
   const [newUserCreated, setNewUserCreated] = useState(false);
+
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
 
   async function fetchQuestions() {
     try {
@@ -25,14 +30,6 @@ function App() {
       console.error(error.message);
     }
   }
-
-  useEffect(() => {
-    
-
-    if (!questions) {
-      fetchQuestions();
-    }
-  }, [questions]);
 
   async function handleDeleteQuestion(id) {
     try {
@@ -51,7 +48,7 @@ function App() {
     }
   }
 
-  const handleCreateUser = async () => {
+  async function handleCreateUser() {
     try {
       if (!newUserName.trim()) {
         console.error('New user name cannot be empty.');
@@ -74,35 +71,34 @@ function App() {
 
       setNewUserName('');
       setShowNewUserForm(false);
-      setNewUserCreated(true); // Felhasználó létrehozva
+      setNewUserCreated(true); 
       console.log('User created successfully.');
     } catch (error) {
       console.error('Error creating user:', error.message);
     }
-  };
+  }
 
-  const handlePostQuestionSuccess = () => {
+  function handlePostQuestionSuccess() {
     setPostQuestion(false);
-    // Frissítjük a kérdések állapotát az új kérdés hozzáadása után
-    fetchQuestions()
-  };
+    fetchQuestions();
+  }
 
-  const handleCloseAnswerTable = () => {
+  function handleCloseAnswerTable() {
     setSelectedQuestionId(null);
-  };
+  }
 
-  const handleSeeQuestions = (id, title) => {
+  function handleSeeQuestions(id, title) {
     setSelectedQuestionId(id);
     setSelectedQuestionTitle(title);
-  };
+  }
 
-  const handleNewUserButtonClick = () => {
+  function handleNewUserButtonClick() {
     setShowNewUserForm(true);
-  };
+  }
 
-  const handleNewUserNameChange = (event) => {
+  function handleNewUserNameChange(event) {
     setNewUserName(event.target.value);
-  };
+  }
 
   return (
     <div className="app">
@@ -126,27 +122,11 @@ function App() {
           )}
 
           {questions ? (
-            <table>
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Description</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {questions.map((question) => (
-                  <tr key={question.id}>
-                    <td>{question.title}</td>
-                    <td>{question.description}</td>
-                    <td>
-                      <button onClick={() => handleSeeQuestions(question.id, question.title)}>See answers</button>
-                      <button onClick={() => handleDeleteQuestion(question.id)}>Delete</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <QuestionTable
+              questions={questions}
+              onDeleteQuestion={handleDeleteQuestion}
+              onSeeAnswers={handleSeeQuestions}
+            />
           ) : (
             <p>Loading questions...</p>
           )}
@@ -154,7 +134,11 @@ function App() {
       )}
 
       {selectedQuestionId && (
-        <AnswerTable questionId={selectedQuestionId} questionTitle={selectedQuestionTitle} onClose={handleCloseAnswerTable} />
+        <AnswerTable
+          questionId={selectedQuestionId}
+          questionTitle={selectedQuestionTitle}
+          onClose={handleCloseAnswerTable}
+        />
       )}
     </div>
   );

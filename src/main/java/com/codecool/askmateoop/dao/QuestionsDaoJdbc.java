@@ -86,7 +86,6 @@ public class QuestionsDaoJdbc implements QuestionsDAO {
                 String description = rs.getString("description");
                 return new Question(id, title, description);
             } else {
-                // No question found with the given ID
                 return null;
             }
         } catch (SQLException e) {
