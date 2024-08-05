@@ -1,6 +1,5 @@
 package com.codecool.askmateoop.dao.model;
 
-import com.codecool.askmateoop.dao.model.Question;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,14 +23,7 @@ public class Answer {
     protected Answer() {
     }
 
-    // Paraméteres konstruktor
-    public Answer(long id, Question question, String description) {
-        this.id = id;
-        this.question = question;
-        this.description = description;
-    }
 
-    // Egy másik konstruktor, ha a Question objektum nem áll rendelkezésre
     public Answer(long id, long questionId, String description) {
         this.id = id;
         this.question = new Question();

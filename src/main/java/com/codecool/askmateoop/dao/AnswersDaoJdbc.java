@@ -3,7 +3,6 @@ package com.codecool.askmateoop.dao;
 import com.codecool.askmateoop.controller.dto.NewAnswerDTO;
 import com.codecool.askmateoop.dao.model.Answer;
 import com.codecool.askmateoop.dao.model.DatabaseConnection;
-import com.codecool.askmateoop.dao.model.Question;
 import org.springframework.stereotype.Repository;
 
 
