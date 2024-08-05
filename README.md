@@ -45,25 +45,14 @@ AskMateOOP is a web application for posting questions and answers, featuring use
 * DATABASE_PASSWORD
 * DATABASE_URL
 
-**Database schema (query console)**:
-    
-    CREATE TABLE question (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-
-    CREATE TABLE answer (
-    id SERIAL PRIMARY KEY,
-    question_id INT NOT NULL REFERENCES question(id),
-    description TEXT NOT NULL
-    );
-
-    CREATE TABLE user (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-    );
+**Configuration**:
+-   For the Spring Boot application to connect to your PostgreSQL database, you'll need to configure the database settings in the application.properties file. Here's a sample configuration for application.properties:
+* spring.datasource.url=${DATABASE_URL}
+* spring.datasource.username=${DATABASE_USERNAME}
+* spring.datasource.password=${DATABASE_PASSWORD}
+* spring.datasource.driver-class-name=org.postgresql.Driver
+* spring.jpa.hibernate.ddl-auto=update
+* spring.jpa.show-sql=true
     
 
 5. **Run the project:**
