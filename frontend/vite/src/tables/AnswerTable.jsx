@@ -38,7 +38,7 @@ function AnswerTable({ questionId, onPostSuccess, onClose, questionTitle }) {
     if (response.ok) {
       const responseData = await response.json();
       console.log('New answer added:', responseData);
-      setAnswers([...(answers || []), responseData]); // Új válasz hozzáadása a helyi állapothoz
+      setAnswers([...(answers || []), responseData]); 
       setDescription('');
       setShowForm(false);
     } else {

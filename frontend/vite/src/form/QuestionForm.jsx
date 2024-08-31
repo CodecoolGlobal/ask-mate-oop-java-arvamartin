@@ -18,7 +18,7 @@ function QuestionForm({ onPostSuccess }) {
     console.log(responseData);
 
     if (response.ok) {
-      onPostSuccess(); // Hívjuk az onPostSuccess callbacket az új kérdés postolása után
+      onPostSuccess(); 
     }
   }
 
