@@ -5,7 +5,14 @@
 ## Overview
 AskMateOOP is a web application for posting questions and answers, featuring user account creation. Currently, it is at a rudimentary level of development. The project utilizes a Spring Boot backend and a React.js frontend.
 
+## Team Members
+- [Ádám Mészáros](https://github.com/adesz0112)
+- [Martin Árva](https://github.com/arvamartin)
+- [Patrik Bódis](https://github.com/bodispatrik1995) 
+
+
 ## Table of Contents
+- [Team Members](#team-members)
 - [Technologies Used](#technologies-used).
 - [Setup & installation](#setup--installation)
 - [Acknowledgments](#Acknowledgments)
