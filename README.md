@@ -1,5 +1,7 @@
 # AskMateOOP Project
 
+<img src="img_3.png" alt="img_3.png" width="700"/>;
+
 ## Overview
 AskMateOOP is a web application for posting questions and answers, featuring user account creation. Currently, it is at a rudimentary level of development. The project utilizes a Spring Boot backend and a React.js frontend.
 
