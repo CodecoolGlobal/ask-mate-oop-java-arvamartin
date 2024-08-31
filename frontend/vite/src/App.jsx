@@ -93,7 +93,7 @@ function App() {
 
   const handleSeeQuestions = (id, title) => {
     setSelectedQuestionId(id);
-    setSelectedQuestionTitle(title);
+    setSelectedQuestionTitle(`: ${title}`);
   };
 
   const handleNewUserButtonClick = () => {

@@ -1,13 +1,21 @@
+/* Apply a soft background color to the entire page */
+html, body {
+  background-color: #eae7dc; /* Warm light beige */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #f5f5f5; /* Light grey background for the content area */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 8px; /* Rounded corners for a modern look */
 }
-
-
-
-/* App.css */
 
 /* Basic table styling */
 table {
@@ -18,30 +26,33 @@ table {
 
 /* Table header style */
 th {
-  background-color: #f2f2f2;
-  color: #333;
+  background-color: #556b2f; /* Dark olive green */
+  color: #ffffff; /* White text */
   padding: 12px;
   text-align: left;
+  font-weight: 600;
 }
 
 /* Table row style */
 td {
   border: 1px solid #ddd;
   padding: 12px;
-  font-weight: 700;
+  font-weight: 500;
+  background-color: #f9f9f9; /* Light grey for row background */
 }
 
 /* Button style */
 button {
-  background-color: #007bff;
-  color: #000000;
+  background-color: #ff6347; /* Vibrant tomato color for buttons */
+  color: #f02d2d; /* White text */
   border: none;
-  padding: 8px 12px;
+  padding: 10px 15px;
   cursor: pointer;
   border-radius: 4px;
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 /* Button hover effect */
 button:hover {
-  background-color: #c2d6ec;
+  background-color: #e5533a; /* Slightly darker tomato color on hover */
 }
