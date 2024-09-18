@@ -20,17 +20,18 @@ AskMateOOP is a web application for posting questions and answers, featuring use
 - [Contributing](#contributing)
 
 ## Technologies Used
-* Backend: Spring Boot, Java
-* Frontend: React.js
-* Database: PostgreSQL
+- **Backend:** [![Java][JAVA]][Java-url] [![Spring Boot][SPRINGBOOT]][Springboot-url]
+- **Frontend:** 
+[![React][React.js]][React-url]
+- **Database:** [![PostgreSQL][postgresql]][postgresql-url]
 
 
 ## Setup & installation
 ### Prerequisites
-* JDK 11 or higher
-* Maven
-* PostgreSQL
-* Node.js
+* [JDK 21 or higher](https://www.oracle.com/java/technologies/downloads/#java21)
+* [Maven](https://maven.apache.org/download.cgi)
+* [PostgreSQL](https://www.postgresql.org/download/)
+* [Node.js](https://nodejs.org/en/download/package-manager)
 * npm
 
 
@@ -89,3 +90,12 @@ AskMateOOP is a web application for posting questions and answers, featuring use
 * Commit your changes (git commit -am 'Add some feature').
 * Push to the branch (git push origin feature/your-feature-name).
 * Create a new Pull Request.
+
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Java]:https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
+[Java-url]:https://www.oracle.com/java/technologies/downloads/
+[SPRINGBOOT]:https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=Spring&logoColor=white
+[Springboot-url]:https://spring.io/projects/spring-boot
+[postgresql]:https://img.shields.io/badge/postgresql-4169e1?style=for-the-badge&logo=postgresql&logoColor=white
+[postgresql-url]:https://www.postgresql.org/download/
