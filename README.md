@@ -51,16 +51,28 @@ AskMateOOP is a web application for posting questions and answers, featuring use
    ```
 
 4. **Set up environment variables for your own database:**
-* DATABASE_USERNAME
-* DATABASE_PASSWORD
-* DATABASE_URL
+
+   - Option 1: Using PowerShell:
+   ```bash
+   $env:DATABASE_URL="YOUR_DATABASE_URL"
+   $env:DATABASE_USERNAME="YOUR_DATABASE_USERNAME"
+   $env:DATABASE_PASSWORD="YOUR_DATABASE_PASSWORD"
+   ```
+   -  Option 2: Using Command Prompt:
+   ```bash
+   set DATABASE_URL=YOUR_DATABASE_URL
+   set DATABASE_USERNAME=YOUR_DATABASE_USERNAME
+   set DATABASE_PASSWORD=YOUR_DATABASE_PASSWORD
+   ```
 
 - When you run the application, it will automatically generate the required database tables.
-    
+  
 
 5. **Run the project:**
     - **Start the server:**
-    run the **AskMateOOPApplication**
+   ```bash
+   mvn spring-boot:run
+   ```
 
      - **Start the client:**
       ```bash
@@ -75,7 +87,7 @@ AskMateOOP is a web application for posting questions and answers, featuring use
 ## Acknowledgments
 
 - [PostgreSQL](https://www.postgresql.org/) for the database.
-- Spring Boot for the backend framework.
+- SpringBoot for the backend framework.
 - [React](https://reactjs.org/) for the frontend library.
 - [Node.js](https://nodejs.org/) for the runtime environment.
 
